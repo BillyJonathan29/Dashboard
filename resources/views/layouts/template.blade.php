@@ -56,8 +56,7 @@
                     class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white primary shadow-lg shadow-blue-900/50">
                     B
                 </div>
-                <span class="whitespace-nowrap sidebar-text opacity-100 transition-opacity duration-200">Dasboard<span
-                        class="text-primary">Masnun</span></span>
+                <span class="whitespace-nowrap sidebar-text opacity-100 transition-opacity duration-200">Dasboard</span>
             </div>
             <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white ml-auto">
                 <i data-lucide="x" class="w-6 h-6"></i>
@@ -177,9 +176,12 @@
                     @endif
                 </ol>
             </nav>
+
             @yield('content')
         </main>
     </div>
+
+    @yield('modal')
 
     <script>
         lucide.createIcons();

@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    {{-- <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="font-bold text-gray-800 text-lg">Platform Growth</h3>
@@ -75,7 +75,7 @@
                 class="h-64 w-full bg-gray-50 rounded-xl border border-dashed border-gray-300 flex items-center justify-center">
                 <div class="text-center">
                     <i data-lucide="bar-chart-3" class="w-10 h-10 text-gray-300 mx-auto mb-2"></i>
-                    <p class="text-gray-400 text-sm">Integrasikan Chart.js atau ApexCharts di sini.</p>
+                    <p class="text-gray-400 text-sm">Integrasikan Chart.js</p>
                 </div>
             </div>
         </div>
@@ -102,5 +102,5 @@
                 View All Members
             </a>
         </div>
-    </div>
+    </div> --}}
 @endsection

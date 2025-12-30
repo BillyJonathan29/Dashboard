@@ -1,7 +1,6 @@
 @extends('layouts.template')
 
 @section('content')
-    {{-- TABLE SECTION --}}
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         <div class="p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white">
             <div class="flex flex-col gap-1">
@@ -104,8 +103,10 @@
             </div>
         </div>
     </div>
+@endsection
 
-    {{-- MODAL ADD --}}
+@section('modal')
+    {{-- Modal tambah --}}
     <div id="addMemberModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/50 backdrop-blur-sm">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl">
@@ -151,7 +152,7 @@
         </div>
     </div>
 
-    {{-- MODAL EDIT --}}
+    {{-- Modal edit --}}
     <div id="editMemberModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/50 backdrop-blur-sm">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl">
@@ -193,7 +194,7 @@
         </div>
     </div>
 
-    {{-- MODAL DELETE --}}
+    {{-- Modal delete --}}
     <div id="deleteMemberModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm">
         <div class="flex items-center justify-center min-h-screen p-4 text-center">
             <div class="relative w-full max-w-sm bg-white rounded-2xl shadow-xl p-8">
@@ -232,7 +233,6 @@
             document.getElementById('edit_email').value = user.email;
             document.getElementById('edit_role').value = user.role;
 
-            // PERBAIKAN: Sesuaikan dengan Route::put('user/{user}/update')
             document.getElementById('editForm').action = `/user/${user.id}/update`;
 
             openModal('editMemberModal');
@@ -240,8 +240,6 @@
 
         function openDeleteModal(id, name) {
             document.getElementById('delete_user_name').innerText = name;
-
-            // PERBAIKAN: Sesuaikan dengan Route::delete('user/{user}/destroy')
             document.getElementById('deleteForm').action = `/user/${id}/destroy`;
 
             openModal('deleteMemberModal');
