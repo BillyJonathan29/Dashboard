@@ -17,6 +17,10 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        #dropdown-menu {
+            transition: all 0.3s ease-in-out;
+        }
+
         .custom-scrollbar::-webkit-scrollbar {
             width: 4px;
         }
@@ -248,11 +252,16 @@
         function toggleDropdown() {
             const menu = document.getElementById('dropdown-menu');
             const arrow = document.getElementById('dropdown-arrow');
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-
-
-            arrow.classList.toggle('rotate-180');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+                arrow.classList.add('rotate-180');
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+                arrow.classList.remove('rotate-180');
+            }
         }
 
 

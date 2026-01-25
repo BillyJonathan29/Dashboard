@@ -1,3 +1,8 @@
+@php
+    $masterRoutes = ['course*', 'user*', 'categories*', 'tags*', 'subjects*', 'levels*'];
+
+    $isMasterActive = request()->routeIs($masterRoutes);
+@endphp
 <p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 sidebar-text whitespace-nowrap">
     Main Menu
 </p>
@@ -26,28 +31,41 @@
 
 <div class="relative" id="dropdown-container">
     <button onclick="toggleDropdown()"
-        class="w-full flex items-center justify-between px-3 py-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all group overflow-hidden">
+        class="w-full flex items-center justify-between px-3 py-3 rounded-xl transition-all group overflow-hidden
+        {{ $isMasterActive ? 'bg-slate-800 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+
         <div class="flex items-center gap-3">
-            <i data-lucide="database" class="w-5 h-5 group-hover:text-primary transition-colors"></i>
+            <i data-lucide="database"
+                class="w-5 h-5 {{ $isMasterActive ? 'text-primary' : 'group-hover:text-primary' }} transition-colors"></i>
             <span class="font-medium whitespace-nowrap sidebar-text">Master Data</span>
         </div>
+
         <i data-lucide="chevron-down" id="dropdown-arrow"
-            class="w-4 h-4 transition-transform duration-300 sidebar-text"></i>
+            class="w-4 h-4 transition-transform duration-300 sidebar-text {{ $isMasterActive ? 'rotate-180' : '' }}"></i>
     </button>
 
     <div id="dropdown-menu"
-        class="hidden flex-col gap-1 mt-1 ml-4 border-l border-slate-700 pl-4 transition-all duration-300">
+        class="{{ $isMasterActive ? 'flex' : 'hidden' }} flex-col gap-1 mt-1 ml-4 border-l border-slate-700 pl-4 transition-all duration-300">
+
+        <a href="{{ route('course') }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm group
+            {{ request()->routeIs('course*') ? 'text-primary font-bold' : 'text-slate-400 hover:text-primary' }}">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span class="sidebar-text">Course</span>
+        </a>
+
         <a href="#"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-primary transition-colors text-sm">
+            class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm group
+            {{ request()->is('dashboard') ? 'text-primary font-bold' : 'text-slate-400 hover:text-primary' }}">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
             <span class="sidebar-text">Dashboard</span>
         </a>
-        <a href="#"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-primary transition-colors text-sm">
-            <span class="sidebar-text">Dashboard</span>
-        </a>
-        <a href="#"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-primary transition-colors text-sm">
-            <span class="sidebar-text">Dashboard</span>
+
+        <a href="{{ route('user') }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm group
+            {{ request()->routeIs('user*') ? 'text-primary font-bold' : 'text-slate-400 hover:text-primary' }}">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span class="sidebar-text">User Management</span>
         </a>
     </div>
 </div>
@@ -56,7 +74,7 @@
 <form method="POST" action="{{ route('logout') }}" class="px-3">
     @csrf
     <button type="submit"
-        class="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-slate-300 hover:bg-red-500/10 hover:text-red-500 transition-all group overflow-hidden">
+        class="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-slate-300 hover:bg-red-500/10 hover:text-red-500 transition-all group overflow-hidden ">
         <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-500 transition-colors"></i>
         <span class="font-medium whitespace-nowrap sidebar-text">Logout</span>
     </button>
