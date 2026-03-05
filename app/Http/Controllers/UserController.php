@@ -78,4 +78,28 @@ class UserController extends Controller
 
         return back()->with('success', 'Member berhasil dihapus.');
     }
+
+    public function show(User $user)
+    {
+        $user->load('courses'); // Load the user's courses
+
+        return view('user.show', [
+            'title' => 'User Details',
+            'user' => $user,
+            'breadcrumbs' => [
+                [
+                    'title' => 'User Management',
+                    'link' => route('user')
+                ],
+                [
+                    'title' => 'User',
+                    'link' => route('user')
+                ],
+                [
+                    'title' => 'Detail',
+                    'link' => route('user.show', $user->id)
+                ]
+            ]
+        ]);
+    }
 }

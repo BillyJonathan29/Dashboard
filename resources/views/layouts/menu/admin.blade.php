@@ -54,19 +54,19 @@
             <span class="sidebar-text">Course</span>
         </a>
 
-        <a href="#"
+        <a href="{{  route('module') }}"
             class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm group
-            {{ request()->is('dashboard') ? 'text-primary font-bold' : 'text-slate-400 hover:text-primary' }}">
+            {{ request()->routeIs('module*') ? 'text-primary font-bold' : 'text-slate-400 hover:text-primary' }}">
             <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-            <span class="sidebar-text">Dashboard</span>
+            <span class="sidebar-text">Module</span>
         </a>
-
+<!-- 
         <a href="{{ route('user') }}"
             class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm group
             {{ request()->routeIs('user*') ? 'text-primary font-bold' : 'text-slate-400 hover:text-primary' }}">
             <i data-lucide="users" class="w-4 h-4"></i>
             <span class="sidebar-text">User Management</span>
-        </a>
+        </a> -->
     </div>
 </div>
 

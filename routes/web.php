@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('user');
         Route::get('create', [UserController::class, 'create'])->name('user.create');
         Route::post('store', [UserController::class, 'store'])->name('user.store');
+        Route::get('{user}', [UserController::class, 'show'])->name('user.show');
         Route::get('{user}/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::put('{user}/update', [UserController::class, 'update'])->name('user.update');
         Route::delete('{user}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
@@ -45,5 +47,14 @@ Route::middleware('auth')->group(function () {
         Route::get('{course}/edit', [CourseController::class, 'edit'])->name('course.edit');
         Route::put('{course}/update', [CourseController::class, 'update'])->name('course.update');
         Route::delete('{course}/destroy', [CourseController::class, 'destroy'])->name('course.destroy');
+    });
+
+    Route::prefix('module')->group(function () {
+        Route::get('/', [ModuleController::class, 'index'])->name('module');
+        Route::get('create', [ModuleController::class, 'create'])->name('module.create');
+        Route::post('store', [ModuleController::class, 'store'])->name('module.store');
+        Route::get('{module}/edit', [ModuleController::class, 'edit'])->name('module.edit');
+        Route::put('{module}/update', [ModuleController::class, 'update'])->name('module.update');
+        Route::delete('{module}/destroy', [ModuleController::class, 'destroy'])->name('module.destroy');
     });
 });
