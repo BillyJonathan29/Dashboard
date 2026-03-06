@@ -333,6 +333,23 @@
     function closeModal(id) {
         document.getElementById(id).classList.add('hidden');
         document.body.style.overflow = 'auto';
+        
+        // Reset preview images saat modal ditutup
+        if (id === 'addCourseModal') {
+            const preview = document.getElementById('preview-image');
+            if (preview) {
+                preview.classList.add('hidden');
+                preview.src = '';
+            }
+            document.getElementById('file-upload').value = '';
+        } else if (id === 'editCourseModal') {
+            const editPreview = document.getElementById('edit_preview-image');
+            if (editPreview) {
+                editPreview.classList.add('hidden');
+                editPreview.src = '';
+            }
+            document.getElementById('edit_file-upload').value = '';
+        }
     }
 
     function openEditModal(button) {
@@ -342,7 +359,15 @@
         document.getElementById('edit_category_id').value = course.category_id;
         document.getElementById('edit_visibility').value = course.visibility;
         document.getElementById('edit_description').value = course.description;
-        document.getElementById('editCourseForm').action = `/course/${course.id}`;
+        document.getElementById('editCourseForm').action = `/course/${course.id}/update`;
+
+        // Reset preview image saat modal dibuka
+        const editPreview = document.getElementById('edit_preview-image');
+        if (editPreview) {
+            editPreview.classList.add('hidden');
+            editPreview.src = '';
+        }
+        document.getElementById('edit_file-upload').value = '';
 
         openModal('editCourseModal');
     }
