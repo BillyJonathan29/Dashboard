@@ -327,14 +327,88 @@
         .ck.ck-editor__main>.ck-editor__editable {
             border-color: #e5e7eb !important;
         }
+
+        .ck-content ul,
+        .ck-content ol {
+            margin: 0.75rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .ck-content ul {
+            list-style-type: disc;
+        }
+
+        .ck-content ol {
+            list-style-type: decimal;
+        }
+
+        .ck-content img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script>
         let createEditor;
         let editEditor;
 
+        class Base64UploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+
+            upload() {
+                return this.loader.file.then(file => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+
+                        reader.onload = () => resolve({ default: reader.result });
+                        reader.onerror = () => reject('Image upload failed.');
+
+                        reader.readAsDataURL(file);
+                    });
+                });
+            }
+
+            abort() {}
+        }
+
+        function Base64UploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+                return new Base64UploadAdapter(loader);
+            };
+        }
+
+        const editorConfig = {
+            extraPlugins: [Base64UploadAdapterPlugin],
+            toolbar: {
+                items: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    'link',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'uploadImage',
+                    'blockQuote',
+                    'insertTable',
+                    '|',
+                    'undo',
+                    'redo'
+                ]
+            },
+            image: {
+                toolbar: ['imageStyle:inline', 'imageStyle:block', 'imageStyle:side', '|', 'toggleImageCaption',
+                    'imageTextAlternative'
+                ]
+            }
+        };
+
         ClassicEditor
-            .create(document.querySelector('#body'))
+            .create(document.querySelector('#body'), editorConfig)
             .then(editor => {
                 createEditor = editor;
             })
@@ -343,7 +417,7 @@
             });
 
         ClassicEditor
-            .create(document.querySelector('#edit_body'))
+            .create(document.querySelector('#edit_body'), editorConfig)
             .then(editor => {
                 editEditor = editor;
             })

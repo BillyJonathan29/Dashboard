@@ -68,7 +68,9 @@
                             <span class="w-1.5 h-1.5 bg-green-600 rounded-full mr-1.5"></span> Active
                         </div>
                     </td>
-                    <td class="px-6 py-4 text-sm text-gray-500">{{ $user->created_at->format('M d, Y') }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">
+                        {{ $user->created_at?->format('M d, Y') ?? 'null' }}
+                    </td>
                     <td class="px-6 py-4 text-right">
                         <div class="flex justify-end gap-3">
                             <button onclick="openEditModal({{ $user->toJson() }})"
