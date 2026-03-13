@@ -14,24 +14,35 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Billy Jonathan',
+        User::updateOrCreate([
             'email' => 'billy@alope.id',
+        ], [
+            'name' => 'Billy Jonathan',
+            'password' => Hash::make('password123'),
+            'role' => 'Admin',
+        ]);
+        
+        User::updateOrCreate([
+            'email' => 'dikri@alope.id',
+        ], [
+            'name' => 'Dikri Fauzan Amrulloh',
             'password' => Hash::make('password123'),
             'role' => 'Admin',
         ]);
 
-        User::create([
-            'name' => 'Masnun Muhaemin',
+        User::updateOrCreate([
             'email' => 'masnun@alope.id',
+        ], [
+            'name' => 'Masnun Muhaemin',
             'password' => Hash::make('password123'),
             'role' => 'Admin',
         ]);
 
         // Data 1 User
-        User::create([
-            'name' => 'Mr.Fatra',
+        User::updateOrCreate([
             'email' => 'fatra@alope.id',
+        ], [
+            'name' => 'Mr.Fatra',
             'password' => Hash::make('password123'),
             'role' => 'User',
         ]);

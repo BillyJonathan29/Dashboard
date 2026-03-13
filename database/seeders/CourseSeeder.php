@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CourseSeeder extends Seeder
 {
@@ -17,6 +18,7 @@ class CourseSeeder extends Seeder
         $category = Category::first();
         if (!$category) {
             $category = Category::create([
+                'id' => (string) Str::uuid(),
                 'name' => 'Web Development',
                 'slug' => 'web-development',
                 'description' => 'Courses about web development'
@@ -61,6 +63,7 @@ class CourseSeeder extends Seeder
         ];
 
         foreach ($courses as $course) {
+            $course['id'] = (string) Str::uuid();
             $course['slug'] = \Illuminate\Support\Str::slug($course['title']);
             Course::create($course);
         }
