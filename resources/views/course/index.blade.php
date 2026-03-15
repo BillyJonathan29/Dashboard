@@ -10,7 +10,7 @@
         </div>
         <div class="flex gap-3 w-full sm:w-auto">
             <form action="{{ route('course') }}" method="GET" class="relative w-full sm:w-64">
-                <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 focus:outline-none group">
+                <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 focus:outline-none group cursor-pointer">
                     <i data-lucide="search"
                         class="w-4 h-4 text-gray-400 group-hover:text-primary transition-colors"></i>
                 </button>
@@ -19,7 +19,7 @@
             </form>
 
             <button onclick="openModal('addCourseModal')"
-                class="bg-primary hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/30">
+                class="bg-primary hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/30 cursor-pointer">
                 <i data-lucide="plus" class="w-4 h-4"></i>
                 <span class="hidden sm:inline">Add Course</span>
             </button>
@@ -79,11 +79,11 @@
                             <button
                                 data-course='@json($course)'
                                 onclick="openEditModal(this)"
-                                class="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all border border-blue-100">
+                                class="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all border border-blue-100 cursor-pointer">
                                 <i data-lucide="edit" class="w-4 h-4"></i>
                             </button>
                             <button onclick="openDeleteModal('{{ $course->id }}', '{{ $course->title }}')"
-                                class="p-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all border border-red-100">
+                                class="p-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all border border-red-100 cursor-pointer">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -123,7 +123,7 @@
                     <h3 class="text-xl font-bold text-gray-800">Create New Course</h3>
                 </div>
                 <button onclick="closeModal('addCourseModal')"
-                    class="text-gray-400 hover:text-gray-600 transition-colors">
+                    class="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
@@ -140,7 +140,7 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">Category</label>
                         <select name="category_id" required
-                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white">
+                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white cursor-pointer">
                             <option value="">Select Category</option>
                             @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -151,7 +151,7 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">Visibility</label>
                         <select name="visibility" required
-                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white">
+                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white cursor-pointer">
                             <option value="public">Public</option>
                             <option value="private">Private</option>
                         </select>
@@ -198,9 +198,9 @@
 
                 <div class="mt-8 flex gap-3">
                     <button type="button" onclick="closeModal('addCourseModal')"
-                        class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-bold">Cancel</button>
+                        class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-bold cursor-pointer">Cancel</button>
                     <button type="submit"
-                        class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-bold">Publish
+                        class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-bold cursor-pointer">Publish
                         Course</button>
                 </div>
             </form>
@@ -221,7 +221,7 @@
                     <h3 class="text-xl font-bold text-gray-800">Edit Course</h3>
                 </div>
                 <button onclick="closeModal('editCourseModal')"
-                    class="text-gray-400 hover:text-gray-600 transition-colors">
+                    class="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
@@ -239,7 +239,7 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">Category</label>
                         <select name="category_id" id="edit_category_id" required
-                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white">
+                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white cursor-pointer">
                             <option value="">Select Category</option>
                             @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -250,7 +250,7 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">Visibility</label>
                         <select name="visibility" id="edit_visibility" required
-                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white">
+                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white cursor-pointer">
                             <option value="public">Public</option>
                             <option value="private">Private</option>
                         </select>
@@ -290,9 +290,9 @@
 
                 <div class="mt-8 flex gap-3">
                     <button type="button" onclick="closeModal('editCourseModal')"
-                        class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-bold">Cancel</button>
+                        class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-bold cursor-pointer">Cancel</button>
                     <button type="submit"
-                        class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-bold">Update
+                        class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-bold cursor-pointer">Update
                         Course</button>
                 </div>
             </form>
@@ -314,9 +314,9 @@
                 @csrf
                 @method('DELETE')
                 <button type="button" onclick="closeModal('deleteCourseModal')"
-                    class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 font-medium">Cancel</button>
+                    class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 font-medium cursor-pointer">Cancel</button>
                 <button type="submit"
-                    class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 shadow-lg shadow-red-500/30 font-medium">Delete</button>
+                    class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 shadow-lg shadow-red-500/30 font-medium cursor-pointer">Delete</button>
             </form>
         </div>
     </div>
@@ -414,3 +414,4 @@
     }
 </script>
 @endsection
+

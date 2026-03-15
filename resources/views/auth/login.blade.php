@@ -16,13 +16,25 @@
             <p class="text-slate-400 mt-2">Silakan masuk ke akun Anda</p>
         </div>
 
+        @if (session('success'))
+            <div class="mb-4 rounded-lg border border-emerald-600 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="mb-4 rounded-lg border border-red-600 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+                {{ $errors->first() }}
+            </div>
+        @endif
+
         <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="mb-5">
                 <label class="block text-slate-300 mb-2 text-sm">Alamat Email</label>
                 <input type="email" name="email"
                     class="w-full px-4 py-3 bg-dark border border-slate-600 rounded-xl text-white focus:outline-none focus:border-primary transition-all"
-                    placeholder="Masukan email anda" required>
+                    placeholder="Masukan email anda" value="{{ old('email') }}" required>
             </div>
 
             <div class="mb-6">
@@ -33,7 +45,7 @@
             </div>
 
             <button type="submit"
-                class="w-full py-3 bg-primary hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/30">
+                class="w-full py-3 bg-primary hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/30 cursor-pointer">
                 Login
             </button>
         </form>
@@ -46,3 +58,4 @@
 </body>
 
 </html>
+

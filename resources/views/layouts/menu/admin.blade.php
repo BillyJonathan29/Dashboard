@@ -1,5 +1,5 @@
 @php
-    $masterRoutes = ['course*', 'user*', 'categories*', 'tags*', 'subjects*', 'levels*'];
+    $masterRoutes = ['course*', 'module*', 'user*', 'categories*', 'tags*', 'subjects*', 'levels*'];
 
     $isMasterActive = request()->routeIs($masterRoutes);
 @endphp
@@ -31,7 +31,7 @@
 
 <div class="relative" id="dropdown-container">
     <button onclick="toggleDropdown()"
-        class="w-full flex items-center justify-between px-3 py-3 rounded-xl transition-all group overflow-hidden
+        class="w-full flex items-center justify-between px-3 py-3 rounded-xl transition-all group overflow-hidden cursor-pointer
         {{ $isMasterActive ? 'bg-slate-800 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
 
         <div class="flex items-center gap-3">
@@ -71,10 +71,10 @@
 </div>
 
 
-<form method="POST" action="{{ route('logout') }}" class="px-3">
+<form method="POST" action="{{ route('logout') }}" class="px-3" onsubmit="return openLogoutModal(event, this);">
     @csrf
     <button type="submit"
-        class="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-slate-300 hover:bg-red-500/10 hover:text-red-500 transition-all group overflow-hidden ">
+        class="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-slate-300 hover:bg-red-500/10 hover:text-red-500 transition-all group overflow-hidden cursor-pointer">
         <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-500 transition-colors"></i>
         <span class="font-medium whitespace-nowrap sidebar-text">Logout</span>
     </button>

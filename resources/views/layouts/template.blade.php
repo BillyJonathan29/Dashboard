@@ -62,7 +62,7 @@
                 </div>
                 <span class="whitespace-nowrap sidebar-text opacity-100 transition-opacity duration-200">Dasboard</span>
             </div>
-            <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white ml-auto">
+            <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white ml-auto cursor-pointer">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
@@ -78,7 +78,7 @@
             class="h-16 bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-30 px-4 sm:px-6 flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <button onclick="toggleSidebar()"
-                    class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-primary focus:outline-none focus:ring-2 focus:ring-gray-200 transition-colors">
+                    class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-primary focus:outline-none focus:ring-2 focus:ring-gray-200 transition-colors cursor-pointer">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
                 {{-- <h1 class="text-lg font-semibold text-gray-800 hidden sm:block">User Management</h1> --}}
@@ -87,7 +87,7 @@
             <div class="flex items-center gap-2 sm:gap-4">
 
                 <div class="relative ml-2">
-                    <button onclick="toggleProfileMenu()" class="flex items-center gap-2 focus:outline-none"
+                    <button onclick="toggleProfileMenu()" class="flex items-center gap-2 focus:outline-none cursor-pointer"
                         id="user-menu-button">
                         <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=2563eb&color=fff"
                             alt="{{ Auth::user()->name }}"
@@ -131,10 +131,10 @@
                         </div>
 
                         <div class="py-2">
-                            <form method="POST" action="{{ route('logout') }}">
+                            <form method="POST" action="{{ route('logout') }}" onsubmit="return openLogoutModal(event, this);">
                                 @csrf
                                 <button type="submit"
-                                    class="w-full group flex items-center px-6 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                    class="w-full group flex items-center px-6 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer">
                                     <i data-lucide="log-out"
                                         class="mr-3 w-5 h-5 text-gray-400 group-hover:text-red-500"></i>
                                     Sign out
@@ -187,6 +187,35 @@
 
     @yield('modal')
 
+    <div id="logoutConfirmModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm transition-all">
+        <div class="flex items-center justify-center min-h-screen p-4 text-center">
+            <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center">
+                            <i data-lucide="log-out" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800">Logout</h3>
+                    </div>
+                    <button type="button" onclick="closeLogoutModal()"
+                        class="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <div class="p-6">
+                    <p class="text-gray-600 mb-6">Apakah Anda yakin ingin keluar dari akun ini?</p>
+                    <div class="flex gap-3">
+                        <button type="button" onclick="closeLogoutModal()"
+                            class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-semibold cursor-pointer">Batal</button>
+                        <button type="button" onclick="submitLogoutForm()"
+                            class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 shadow-lg shadow-red-500/30 transition-all font-semibold cursor-pointer">Ya, Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         lucide.createIcons();
 
@@ -196,6 +225,39 @@
         const sidebarTexts = document.querySelectorAll('.sidebar-text');
         const sidebarHeader = document.getElementById('sidebar-header');
         const logoContainer = document.getElementById('logo-container');
+        const logoutConfirmModal = document.getElementById('logoutConfirmModal');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        const dropdownArrow = document.getElementById('dropdown-arrow');
+        const masterDataDropdownKey = 'masterDataDropdownOpen';
+        let pendingLogoutForm = null;
+
+        function applyDropdownState(isOpen) {
+            if (!dropdownMenu || !dropdownArrow) return;
+
+            if (isOpen) {
+                dropdownMenu.classList.remove('hidden');
+                dropdownMenu.classList.add('flex');
+                dropdownArrow.classList.add('rotate-180');
+            } else {
+                dropdownMenu.classList.add('hidden');
+                dropdownMenu.classList.remove('flex');
+                dropdownArrow.classList.remove('rotate-180');
+            }
+        }
+
+        function initDropdownState() {
+            if (!dropdownMenu || !dropdownArrow) return;
+
+            const savedState = localStorage.getItem(masterDataDropdownKey);
+            if (savedState === null) {
+                const isInitiallyOpen = !dropdownMenu.classList.contains('hidden');
+                localStorage.setItem(masterDataDropdownKey, isInitiallyOpen ? '1' : '0');
+                applyDropdownState(isInitiallyOpen);
+                return;
+            }
+
+            applyDropdownState(savedState === '1');
+        }
 
         function toggleSidebar() {
             const isDesktop = window.innerWidth >= 1024;
@@ -250,18 +312,11 @@
         });
 
         function toggleDropdown() {
-            const menu = document.getElementById('dropdown-menu');
-            const arrow = document.getElementById('dropdown-arrow');
-            
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                menu.classList.add('flex');
-                arrow.classList.add('rotate-180');
-            } else {
-                menu.classList.add('hidden');
-                menu.classList.remove('flex');
-                arrow.classList.remove('rotate-180');
-            }
+            if (!dropdownMenu) return;
+
+            const isOpen = dropdownMenu.classList.contains('hidden');
+            applyDropdownState(isOpen);
+            localStorage.setItem(masterDataDropdownKey, isOpen ? '1' : '0');
         }
 
 
@@ -289,9 +344,36 @@
                 }, 200);
             }
         });
+
+        function openLogoutModal(event, form) {
+            event.preventDefault();
+            pendingLogoutForm = form;
+            logoutConfirmModal.classList.remove('hidden');
+            return false;
+        }
+
+        function closeLogoutModal() {
+            logoutConfirmModal.classList.add('hidden');
+            pendingLogoutForm = null;
+        }
+
+        function submitLogoutForm() {
+            if (pendingLogoutForm) {
+                pendingLogoutForm.submit();
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !logoutConfirmModal.classList.contains('hidden')) {
+                closeLogoutModal();
+            }
+        });
+
+        initDropdownState();
     </script>
 
     @yield('scripts')
 </body>
 
 </html>
+
