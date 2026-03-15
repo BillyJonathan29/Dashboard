@@ -9,7 +9,7 @@
         </div>
         <div class="flex gap-3 w-full sm:w-auto">
             <form action="{{ route('user') }}" method="GET" class="relative w-full sm:w-64">
-                <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 focus:outline-none group">
+                <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 focus:outline-none group cursor-pointer">
                     <i data-lucide="search" class="w-4 h-4 text-gray-400 group-hover:text-primary transition-colors">
                     </i>
                 </button>
@@ -19,7 +19,7 @@
             </form>
 
             <button onclick="openModal('addMemberModal')"
-                class="bg-primary hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/30">
+                class="bg-primary hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/30 cursor-pointer">
                 <i data-lucide="plus" class="w-4 h-4"></i>
                 <span class="hidden sm:inline">Add Member</span>
             </button>
@@ -68,17 +68,19 @@
                             <span class="w-1.5 h-1.5 bg-green-600 rounded-full mr-1.5"></span> Active
                         </div>
                     </td>
-                    <td class="px-6 py-4 text-sm text-gray-500">{{ $user->created_at->format('M d, Y') }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">
+                        {{ $user->created_at?->format('M d, Y') ?? 'null' }}
+                    </td>
                     <td class="px-6 py-4 text-right">
                         <div class="flex justify-end gap-3">
                             <button onclick="openEditModal({{ $user->toJson() }})"
-                                class="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-primary bg-blue-50 hover:bg-blue-100 rounded-lg transition-all border border-blue-100">
+                                class="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-primary bg-blue-50 hover:bg-blue-100 rounded-lg transition-all border border-blue-100 cursor-pointer">
                                 <i data-lucide="pencil" class="w-4 h-4"></i>
                                 <span>Edit</span>
                             </button>
 
                             <button onclick="openDeleteModal({{ $user->id }}, '{{ $user->name }}')"
-                                class="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all border border-red-100">
+                                class="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all border border-red-100 cursor-pointer">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 <span>Delete</span>
                             </button>
@@ -114,7 +116,7 @@
         <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl">
             <div class="p-6 border-b border-gray-100 flex justify-between items-center">
                 <h3 class="text-xl font-bold text-gray-800">Add New Member</h3>
-                <button onclick="closeModal('addMemberModal')" class="text-gray-400 hover:text-gray-600"><i
+                <button onclick="closeModal('addMemberModal')" class="text-gray-400 hover:text-gray-600 cursor-pointer"><i
                         data-lucide="x"></i></button>
             </div>
             <form action="{{ route('user.store') }}" method="POST" class="p-6 space-y-4">
@@ -137,16 +139,16 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
                     <select name="role"
-                        class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all">
+                        class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all cursor-pointer">
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                     </select>
                 </div>
                 <div class="pt-4 flex gap-3">
                     <button type="button" onclick="closeModal('addMemberModal')"
-                        class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-medium">Cancel</button>
+                        class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-medium cursor-pointer">Cancel</button>
                     <button type="submit"
-                        class="flex-1 px-4 py-2.5 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-medium">Save
+                        class="flex-1 px-4 py-2.5 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-medium cursor-pointer">Save
                         Member</button>
                 </div>
             </form>
@@ -160,7 +162,7 @@
         <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl">
             <div class="p-6 border-b border-gray-100 flex justify-between items-center">
                 <h3 class="text-xl font-bold text-gray-800">Edit Member</h3>
-                <button onclick="closeModal('editMemberModal')" class="text-gray-400 hover:text-gray-600"><i
+                <button onclick="closeModal('editMemberModal')" class="text-gray-400 hover:text-gray-600 cursor-pointer"><i
                         data-lucide="x"></i></button>
             </div>
             <form id="editForm" method="POST" class="p-6 space-y-4">
@@ -179,16 +181,16 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
                     <select name="role" id="edit_role"
-                        class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all">
+                        class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all cursor-pointer">
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                     </select>
                 </div>
                 <div class="pt-4 flex gap-3">
                     <button type="button" onclick="closeModal('editMemberModal')"
-                        class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-medium">Cancel</button>
+                        class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-medium cursor-pointer">Cancel</button>
                     <button type="submit"
-                        class="flex-1 px-4 py-2.5 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-medium">Update
+                        class="flex-1 px-4 py-2.5 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-medium cursor-pointer">Update
                         Member</button>
                 </div>
             </form>
@@ -210,9 +212,9 @@
                 @csrf
                 @method('DELETE')
                 <button type="button" onclick="closeModal('deleteMemberModal')"
-                    class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 font-medium">Cancel</button>
+                    class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 font-medium cursor-pointer">Cancel</button>
                 <button type="submit"
-                    class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 shadow-lg shadow-red-500/30 font-medium">Delete
+                    class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 shadow-lg shadow-red-500/30 font-medium cursor-pointer">Delete
                     Now</button>
             </form>
         </div>

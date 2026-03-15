@@ -10,7 +10,7 @@
             </div>
             <div class="flex gap-3 w-full sm:w-auto">
                 <form action="{{ route('module') }}" method="GET" class="relative w-full sm:w-64">
-                    <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 focus:outline-none group">
+                    <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 focus:outline-none group cursor-pointer">
                         <i data-lucide="search"
                             class="w-4 h-4 text-gray-400 group-hover:text-primary transition-colors"></i>
                     </button>
@@ -19,7 +19,7 @@
                 </form>
 
                 <button onclick="openModal('addModuleModal')"
-                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/30">
+                    class="bg-primary hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/30 cursor-pointer">
                     <i data-lucide="plus" class="w-4 h-4"></i>
                     <span class="hidden sm:inline">Add Module</span>
                 </button>
@@ -45,6 +45,7 @@
                     <tr class="bg-gray-50/50 border-b border-gray-200">
                         <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Module Info</th>
                         <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Course</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Publisher</th>
                         <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Action
                         </th>
                     </tr>
@@ -79,14 +80,19 @@
                                     {{ $module->course->title ?? 'Uncategorized' }}
                                 </span>
                             </td>
+                            <td class="px-6 py-4">
+                                <span class="text-sm text-gray-700">
+                                    {{ $module->publisher->name ?? '-' }}
+                                </span>
+                            </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">
                                     <button data-module='@json($module)' onclick="openEditModal(this)"
-                                        class="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all border border-blue-100">
+                                        class="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all border border-blue-100 cursor-pointer">
                                         <i data-lucide="edit" class="w-4 h-4"></i>
                                     </button>
                                     <button onclick="openDeleteModal('{{ $module->id }}', '{{ $module->title }}')"
-                                        class="p-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all border border-red-100">
+                                        class="p-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all border border-red-100 cursor-pointer">
                                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                                     </button>
                                 </div>
@@ -94,7 +100,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="px-6 py-10 text-center text-gray-500">
+                            <td colspan="4" class="px-6 py-10 text-center text-gray-500">
                                 <div class="flex flex-col items-center justify-center gap-2">
                                     <i data-lucide="folder-open" class="w-10 h-10 text-gray-300"></i>
                                     <p>Belum ada module yang ditambahkan.</p>
@@ -126,7 +132,7 @@
                         <h3 class="text-xl font-bold text-gray-800">Create New Module</h3>
                     </div>
                     <button onclick="closeModal('addModuleModal')"
-                        class="text-gray-400 hover:text-gray-600 transition-colors">
+                        class="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer">
                         <i data-lucide="x" class="w-6 h-6"></i>
                     </button>
                 </div>
@@ -143,10 +149,21 @@
                         <div class="md:col-span-1">
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Course</label>
                             <select name="course_id" required
-                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white">
+                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white cursor-pointer">
                                 <option value="">Select Course</option>
                                 @foreach ($courses as $course)
                                     <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Publisher</label>
+                            <select name="publisher_id"
+                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white cursor-pointer">
+                                <option value="">Select Publisher</option>
+                                @foreach ($publishers as $publisher)
+                                    <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -188,9 +205,9 @@
 
                     <div class="mt-8 flex gap-3">
                         <button type="button" onclick="closeModal('addModuleModal')"
-                            class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-bold">Cancel</button>
+                            class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-bold cursor-pointer">Cancel</button>
                         <button type="submit"
-                            class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-bold">Publish
+                            class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-bold cursor-pointer">Publish
                             Module</button>
                     </div>
                 </form>
@@ -211,7 +228,7 @@
                         <h3 class="text-xl font-bold text-gray-800">Edit Module</h3>
                     </div>
                     <button onclick="closeModal('editModuleModal')"
-                        class="text-gray-400 hover:text-gray-600 transition-colors">
+                        class="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer">
                         <i data-lucide="x" class="w-6 h-6"></i>
                     </button>
                 </div>
@@ -229,10 +246,21 @@
                         <div class="md:col-span-1">
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Course</label>
                             <select name="course_id" id="edit_course_id" required
-                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white">
+                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white cursor-pointer">
                                 <option value="">Select Course</option>
                                 @foreach ($courses as $course)
                                     <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Publisher</label>
+                            <select name="publisher_id" id="edit_publisher_id"
+                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all bg-white cursor-pointer">
+                                <option value="">Select Publisher</option>
+                                @foreach ($publishers as $publisher)
+                                    <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -276,9 +304,9 @@
 
                     <div class="mt-8 flex gap-3">
                         <button type="button" onclick="closeModal('editModuleModal')"
-                            class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-bold">Cancel</button>
+                            class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all font-bold cursor-pointer">Cancel</button>
                         <button type="submit"
-                            class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-bold">Update
+                            class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-bold cursor-pointer">Update
                             Module</button>
                     </div>
                 </form>
@@ -300,9 +328,9 @@
                     @csrf
                     @method('DELETE')
                     <button type="button" onclick="closeModal('deleteModuleModal')"
-                        class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 font-medium">Cancel</button>
+                        class="flex-1 px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 font-medium cursor-pointer">Cancel</button>
                     <button type="submit"
-                        class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 shadow-lg shadow-red-500/30 font-medium">Delete</button>
+                        class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 shadow-lg shadow-red-500/30 font-medium cursor-pointer">Delete</button>
                 </form>
             </div>
         </div>
@@ -327,14 +355,88 @@
         .ck.ck-editor__main>.ck-editor__editable {
             border-color: #e5e7eb !important;
         }
+
+        .ck-content ul,
+        .ck-content ol {
+            margin: 0.75rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .ck-content ul {
+            list-style-type: disc;
+        }
+
+        .ck-content ol {
+            list-style-type: decimal;
+        }
+
+        .ck-content img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script>
         let createEditor;
         let editEditor;
 
+        class Base64UploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+
+            upload() {
+                return this.loader.file.then(file => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+
+                        reader.onload = () => resolve({ default: reader.result });
+                        reader.onerror = () => reject('Image upload failed.');
+
+                        reader.readAsDataURL(file);
+                    });
+                });
+            }
+
+            abort() {}
+        }
+
+        function Base64UploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+                return new Base64UploadAdapter(loader);
+            };
+        }
+
+        const editorConfig = {
+            extraPlugins: [Base64UploadAdapterPlugin],
+            toolbar: {
+                items: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    'link',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'uploadImage',
+                    'blockQuote',
+                    'insertTable',
+                    '|',
+                    'undo',
+                    'redo'
+                ]
+            },
+            image: {
+                toolbar: ['imageStyle:inline', 'imageStyle:block', 'imageStyle:side', '|', 'toggleImageCaption',
+                    'imageTextAlternative'
+                ]
+            }
+        };
+
         ClassicEditor
-            .create(document.querySelector('#body'))
+            .create(document.querySelector('#body'), editorConfig)
             .then(editor => {
                 createEditor = editor;
             })
@@ -343,7 +445,7 @@
             });
 
         ClassicEditor
-            .create(document.querySelector('#edit_body'))
+            .create(document.querySelector('#edit_body'), editorConfig)
             .then(editor => {
                 editEditor = editor;
             })
@@ -366,6 +468,7 @@
 
             document.getElementById('edit_title').value = module.title;
             document.getElementById('edit_course_id').value = module.course_id;
+            document.getElementById('edit_publisher_id').value = module.publisher_id || '';
             document.getElementById('edit_description').value = module.description;
 
             if (editEditor) {
@@ -418,3 +521,5 @@
         }
     </script>
 @endsection
+
+

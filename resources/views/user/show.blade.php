@@ -18,7 +18,7 @@
                         </div>
                         <div class="flex items-center gap-1.5">
                             <i data-lucide="calendar" class="w-4 h-4"></i>
-                            <span class="text-sm">Joined {{ $user->created_at->format('M d, Y') }}</span>
+                            <span class="text-sm">Joined {{ $user->created_at?->format('M d, Y') ?? 'null' }}</span>
                         </div>
                     </div>
                     <div class="mt-2 flex items-center justify-center sm:justify-start gap-3">

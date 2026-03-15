@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\Course;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -14,7 +15,7 @@ class ModuleController extends Controller
     {
         $search = $request->input('search');
 
-        $modules = Module::with('course')
+        $modules = Module::with(['course', 'publisher'])
             ->when($search, function ($query) use ($search) {
                 return $query->where('title', 'like', "%{$search}%");
             })
@@ -22,12 +23,14 @@ class ModuleController extends Controller
             ->paginate(10);
 
         $courses = Course::latest()->get();
+        $publishers = User::orderBy('name')->get(['id', 'name']);
         $title = 'Manage Module';
 
         return view('module.index', [
             'title' => $title,
             'modules' => $modules,
             'courses' => $courses,
+            'publishers' => $publishers,
             'breadcrumbs' => [
                 ['title' => 'Content Management', 'link' => route('module')],
                 ['title' => 'Module', 'link' => route('module')]
@@ -40,6 +43,7 @@ class ModuleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'course_id' => 'required|exists:courses,id',
+            'publisher_id' => 'nullable|exists:users,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'description' => 'required|string',
             'body' => 'required|string',
@@ -61,6 +65,7 @@ class ModuleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'course_id' => 'required|exists:courses,id',
+            'publisher_id' => 'nullable|exists:users,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'description' => 'required|string',
             'body' => 'required|string',
