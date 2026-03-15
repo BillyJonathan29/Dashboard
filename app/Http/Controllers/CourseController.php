@@ -36,7 +36,18 @@ class CourseController extends Controller
             ]
         ]);
     }
-
+    public function show(Course $course)
+    {
+        return view('course.show', [
+            'title' => 'Course Detail',
+            'course' => $course->load('category'),
+            'breadcrumbs' => [
+                ['title' => 'Content Management', 'link' => route('course')],
+                ['title' => 'Course', 'link' => route('course')],
+                ['title' => 'Detail Course', 'link' => route('course.show', $course->id)]
+            ]
+        ]);
+    }
 
     public function store(Request $request)
     {
