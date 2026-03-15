@@ -76,6 +76,10 @@
                     </td>
                     <td class="px-6 py-4 text-right">
                         <div class="flex justify-end gap-2">
+                            <a href="{{ route('course.show', $course->id) }}"
+                                class="p-2 text-green-600 bg-green-50 hover:bg-green-100 rounded-lg transition-all border border-green-100 cursor-pointer">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </a>
                             <button
                                 data-course='@json($course)'
                                 onclick="openEditModal(this)"

@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [CourseController::class, 'index'])->name('course');
         Route::get('create', [CourseController::class, 'create'])->name('course.create');
         Route::post('store', [CourseController::class, 'store'])->name('course.store');
+        Route::get('{course}', [CourseController::class, 'show'])->name('course.show');
         Route::get('{course}/edit', [CourseController::class, 'edit'])->name('course.edit');
         Route::put('{course}/update', [CourseController::class, 'update'])->name('course.update');
         Route::delete('{course}/destroy', [CourseController::class, 'destroy'])->name('course.destroy');
